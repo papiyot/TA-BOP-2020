@@ -129,11 +129,29 @@ class Detail_dasarController extends Controller
 
     public function lihat1(request $request)
     {
+        $data = new \stdClass();
         $cari = $request->cari;
-        $detaildasar = det_dasar::where('pt_id','like',"%".$cari."%")
+        $data->detaildasar = det_dasar::where('pt_id','like',"%".$cari."%")
         ->with('dasar')->paginate();
-        $pet = pt::orderBy('created_at','ASC')->get();
-        return view('detaildasar.lihat', compact('detaildasar','pet'));
+        $data->pet = pt::orderBy('created_at','ASC')->get();
+        $data->getdata = [];
+        $collect = [];
+        foreach($data->detaildasar as $detaildasar){
+            $sub = new \stdClass();
+            $sub = $detaildasar;
+            $sub->layanan = [];
+            
+            // dd($collect);
+            if($detaildasar->detaildep->kode== 'DP001'){
+                array_push($collect, $detaildasar->kd_detail_dasar);
+                $sub->layanan = det_dasar::where('pt_id', 'like', "%" . $cari . "%")->whereNotIn('kd_detail_dasar', $collect)->get();
+            }
+            
+            array_push($data->getdata, $sub);
+            // dd($sub);
+        }
+        // dd($data->getdata);
+        return view('detaildasar.lihat', compact('data'));
     }
     
 }
