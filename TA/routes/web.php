@@ -30,6 +30,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('simple', 'HomeController@hasil');
 
 Route::get('/Detaildasar/lihat', 'Detail_dasarController@lihat1');
+Route::get('/Detaildasar/alokasi', 'Detail_dasarController@alokasi');
 
 Route::get('/Departemen/createPro', 'DepController@pro');
 
