@@ -218,7 +218,7 @@ class Detail_dasarController extends Controller
                         }
                         $data->set[$index]['kapasitas'] = $kapasitas;
                         $cek_kapasitas = (isset($data->set[$index]['kapasitas'])) ? $data->set[$index]['kapasitas'] : 0;
-                        $data->set[$index]['BOP'] = $data->set[$index]['kos_awal']* $cek_kapasitas;
+                        $data->set[$index]['BOP'] = $data->set[$index]['kos_awal']/ $cek_kapasitas;
                         $di = $index;
                         $cont = 0;
                         for ($a = 0; $a <= $di; $a++) {
