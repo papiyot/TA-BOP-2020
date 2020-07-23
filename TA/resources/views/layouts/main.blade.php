@@ -84,10 +84,10 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
+      <a href="#" class="brand-link">
         <img src="{{ url('/admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
         style="opacity: .8">
-        <span class="brand-text font-weight-light">Admin</span>
+        <span class="brand-text font-weight-light"> {{ Auth::user()->jabatan }}</span>
       </a>
 
       <!-- Sidebar -->
@@ -115,6 +115,7 @@
               </p>
             </a>
           </li>
+          @if(auth::user('user')->jabatan=='Admin')
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
@@ -143,13 +144,30 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('detail_dasar.create')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="" class="nav-link">
+                  <i class="nav-icon fas fa-circle"></i>
                   <p>Data Detail Pembebanan</p>
                 </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('detail_dasar.create')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Detail Departemen Jasa</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ url('Detaildasar/createPro') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Detail Departemen Produksi</p>
+                    </a>
+                  </li>
+                </ul>
               </li>
             </ul>
           </li>
+          @endif
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
@@ -165,6 +183,14 @@
                   <p>Simple Tables</p>
                 </a>
               </li>
+              @if(auth::user('user')->jabatan=='Admin')
+              <li class="nav-item">
+                <a href="{{ route('pt.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Daftar PT</p>
+                </a>
+              </li>
+              @endif
               <li class="nav-item">
                 <a href="{{ route('dep.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -180,7 +206,7 @@
               <li class="nav-item">
                 <a href="{{ route('detail_dasar.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Daftar Detail Pembebanan</p>
+                  <p>Daftar Detail Dasar Pembebanan</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -189,76 +215,93 @@
                   <p>Daftar Detail Departemen</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{ url('Detaildasar/lihat') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>laporan Anggaran</p>
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-circle"></i>
+                  <p>
+                    Laporan
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
                 </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ url('Detaildasar/lihat') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Laporan Anggaran</p>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ url('Detaildasar/alokasi') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Laporan Pengalokasian BOP</p>
+                    </a>
+                  </li>
+                </ul>
               </li>
-            </ul>
-          </li>
 
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
+            </nav>
+            <!-- /.sidebar-menu -->
+          </div>
+          <!-- /.sidebar -->
+        </aside>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    
-    <!-- /.content-header -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
 
-    <!-- Main content -->
-     <section class="content">
-      @yield('content')
-    </section>
+          <!-- /.content-header -->
 
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2019</strong>
-    All rights reserved.
+          <!-- Main content -->
+          <section class="content">
+            @yield('content')
+          </section>
+
+          <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer text-center">
+    <strong>Copyright &copy; 2020 | Deni Herdiana | Sistem Informasi Akuntansi | STMIK AKAKOM YOGYAKARTA.</strong> </br>
+    website template by <a href="http://adminlte.io">AdminLTE.io</a>
   </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+          <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+      </div>
+      <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="{{ url('/admin/plugins/jquery/jquery.min.js') }}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="{{ url('/admin/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="{{ url('/admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- ChartJS -->
-<script src="{{ url('/admin/plugins/chart.js/Chart.min.js') }}"></script>
+      <!-- jQuery -->
+      <script src="{{ url('/admin/plugins/jquery/jquery.min.js') }}"></script>
+      <!-- jQuery UI 1.11.4 -->
+      <script src="{{ url('/admin/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+      <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+      <script>
+        $.widget.bridge('uibutton', $.ui.button)
+      </script>
+      <!-- Bootstrap 4 -->
+      <script src="{{ url('/admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+      <!-- ChartJS -->
+      <script src="{{ url('/admin/plugins/chart.js/Chart.min.js') }}"></script>
 
 
-<!-- jQuery Knob Chart -->
-<script src="{{ url('/admin/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
-<!-- daterangepicker -->
-<script src="{{ url('/admin/plugins/moment/moment.min.js') }}"></script>
-<script src="{{ url('/admin/plugins/daterangepicker/daterangepicker.js') }}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ url('/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-<!-- Summernote -->
-<script src="{{ url('/admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
-<!-- overlayScrollbars -->
-<script src="{{ url('/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ url('/admin/dist/js/adminlte.js') }}"></script> 
-<!-- AdminLTE for demo purposes -->
-<script src="{{ url('/admin/dist/js/demo.js') }}"></script>
-</body>
-</html>
+      <!-- jQuery Knob Chart -->
+      <script src="{{ url('/admin/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+      <!-- daterangepicker -->
+      <script src="{{ url('/admin/plugins/moment/moment.min.js') }}"></script>
+      <script src="{{ url('/admin/plugins/daterangepicker/daterangepicker.js') }}"></script>
+      <!-- Tempusdominus Bootstrap 4 -->
+      <script src="{{ url('/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+      <!-- Summernote -->
+      <script src="{{ url('/admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
+      <!-- overlayScrollbars -->
+      <script src="{{ url('/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+      <!-- AdminLTE App -->
+      <script src="{{ url('/admin/dist/js/adminlte.js') }}"></script> 
+      <!-- AdminLTE for demo purposes -->
+      <script src="{{ url('/admin/dist/js/demo.js') }}"></script>
+    </body>
+    </html>

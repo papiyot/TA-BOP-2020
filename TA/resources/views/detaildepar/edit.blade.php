@@ -27,7 +27,7 @@
             <div class="card-body">
                 @if ($errors->any())
                 <div class="alert alert-danger">
-                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+
                     <ul>
                         @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -48,9 +48,8 @@
                         <!--<input type="text" name="kode" class="form-control" id="title" value="{{ $detail_dep->depa->jenis_dp }}" aria-describedby="title" placeholder="">-->
                         <select class="form-control custom-select" name="kode">
                             @foreach ($detail_deps as $de)
-                            <option value="{{ $de->kd_dp }}" 
-
-                                @if ( $de->kd_dp === $detail_dep->kd_dp) 
+                            <option value="{{ $de->kd_dp }}"
+                                @if ( $de->kd_dp === $detail_dep->kd_dp)
                                 @endif selected>
                                 {{ $de->jenis_dp }}</option>
                                 @endforeach
@@ -59,7 +58,8 @@
                         </div>
                         <div class="form-group">
                             <label for="writer">Nama Detail Departemen</label>
-                            <input type="text" name="nama_detail_dep" class="form-control" id="writer" value="{{ $detail_dep->nama_detail_dep }}" aria-describedby="writer" >
+                            <input type="text" name="nama_detail_dep" class="form-control" id="writer"
+                            value="{{ $detail_dep->nama_detail_dep }}" aria-describedby="writer" >
                         </div>
                         <div class="form-group">
                             <label for="writer">Nama Detail Departemen</label>
@@ -67,7 +67,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">Rp</span>
                             </div>
-                            <input type="text" class="uang  form-control" name="kos_awal" id="uang"  value="{{ $detail_dep->kos_awal }}"> 
+                            <input type="text" class="uang  form-control" name="kos_awal" id="uang"  value="{{ $detail_dep->kos_awal }}">
                         </div>
                         <div class="text-center mt-5">
                             <input type="submit" class="form-control btn-success"  align="center" value=" Edit">

@@ -26,7 +26,7 @@ class Pt extends Model
     }
 public function detdasar()
     {
-        return $this->hasMany('App\Det_dasar', 'pt_id');
+        return $this->hasMany('App\Det_dasar', 'pt_id','kd_detail_dasar');
     }
 
 }

@@ -13,7 +13,7 @@ class Det_dasar extends Model
     protected $primaryKey = 'kd_detail_dasar';
 
     protected $table = 'det_dasar';
-    protected $fillable = ['beban_id', 'detaildep_id', 'pt_id', 'jkl','lh','jm','tjk'];
+    protected $fillable = ['beban_id', 'detaildep_id', 'pt_id', 'jkl','lh','jm'];
 
 
     public function getAutoNumberOptions()
@@ -36,9 +36,9 @@ class Det_dasar extends Model
     {
         return $this->belongsTo('App\Detail_dep', 'detaildep_id');
     }
-
-     public function pt()
+public function pt()
     {
-        return $this->belongsTo('App\Pt', 'pt_id','kd_pt');
+        return $this->belongsTo('App\Pt', 'pt_id' ,'kd_pt');
     }
+    
 }

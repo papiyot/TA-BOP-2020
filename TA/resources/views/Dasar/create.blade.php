@@ -87,7 +87,6 @@
             <td>{{ $key+1 }}</td>
             <td>{{ $ds->kd_dasar }}</td>
             <td>{{ $ds->nama_dasar }}</td>
-
             <td>
                 <form action="{{ route ('dasar.destroy',$ds->kd_dasar) }}" method="POST">
 

@@ -1,26 +1,23 @@
 @extends('layouts.main')
 
 @section('content')
-
-<div class="row">
-    <div class="col-lg-12 margin-tb mt-3 mb-3">
-        <div class="text-center">
-            <h3>Anggaran</h3>
-
-            <form action="{{ url('Detaildasar/lihat') }}" method="GET">
-                <select name="cari">
-                    <option>==Pilih PT==</option>
-                    @foreach ($data->pet as $pes)
-                    <option value="{{ old('cari', $pes->kd_pt)   }}">{{ $pes->nama_pt}} </option>
-                    @endforeach
-                </select>
-
-                <input type="submit" value="CARI">
-            </form>
-            <br />
-        </div>
+<div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Laporan Data Penglokasian</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+              <li class="breadcrumb-item active">Laporan Data penglokasian</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
     </div>
-</div>
+
+
 @if ($message = Session::get('success'))
 <div class="alert alert-success">
     <p>{{ $message }}</p>
@@ -29,16 +26,26 @@
 @php 
 $set=[]; 
 @endphp
+        <div class="text-center">
+            <form action="{{ url('/Detaildasar/alokasi') }}" method="GET">
+                <select name="cari">
+                    <option>==Pilih PT==</option>
+                    @foreach ($data->pet as $pes)
+                    <option value="{{ old('cari', $pes->kd_pt)   }}">{{ $pes->nama_pt}} </option>
+                    @endforeach
+                </select>
+                <input type="submit" value="CARI">
+            </form>
+            <br/>
+        </div>
 <div class="card card-default">
     <div class="card-header">
-        <h3 class="card-title">Data Anggaran </h3>
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-        </div>
-    </div>
-    <table class="table table-striped table-bordered">
-
+        <h3 class="card-title">Laporan </h3>
+            </div>
+@if ($data->detaildasar)
+    <h3 class="text-center">Laporan Pengalokasian BOP</h3>
+    <p class="text-center">PT {{ $pes->nama_pt }} @if($cari === $pes->kd_pt ) @endif </p>
+    <table class="table table-striped table-bordered text-center">
         <tr>
             @foreach($data->header as $inx => $header)
             @if($inx==0)
@@ -68,26 +75,24 @@ $set=[];
             @endforeach
         </tr>
         @foreach($data->set as $index=>$val)
-        
-            @if($val['jenis_dp']=='Jasa')
+        @if($val['jenis_dp']=='Jasa')
+        @php $count_layanan = count($val['layanan']); @endphp
+        <tr>
+            <td>Alokasi {{$val['nama_detail_dep']}} ke @foreach($val['layanan'] as $inx_layanan => $layanan) {{$layanan->nama_detail_dep}} @if($inx_layanan<$count_layanan-1) , @endif @endforeach</td>
+            @foreach($val['koslain'] as $inx_koslain => $koslain)
+            <?php $set[$index+1][$inx_koslain] = nominal($koslain); ?>
 
-            @php $count_layanan = count($val['layanan']); @endphp
-            <tr>
-                <td>Alokasi {{$val['nama_detail_dep']}} ke @foreach($val['layanan'] as $inx_layanan => $layanan) {{$layanan->nama_detail_dep}} @if($inx_layanan<$count_layanan-1) , @endif @endforeach</td>
-                @foreach($val['koslain'] as $inx_koslain => $koslain)
-                <?php $set[$index+1][$inx_koslain] = nominal($koslain); ?>
-                
-                @endforeach
-                
-                @foreach($val['koslain'] as $inx_koslain => $koslain)
-                @if($index==$inx_koslain)
-                <td>(@currency(subtotal($set, $index)) )</td>
-                @else
-                <td>@currency(nominal($koslain)) </td>
-                @endif
-                @endforeach
-            </tr>
+            @endforeach
+
+            @foreach($val['koslain'] as $inx_koslain => $koslain)
+            @if($index==$inx_koslain)
+            <td>(@currency(subtotal($set, $index)) )</td>
+            @else
+            <td>@currency(nominal($koslain)) </td>
             @endif
+            @endforeach
+        </tr>
+        @endif
         @endforeach
         <tr>
             <td>saldo setelah alokasi</td>
@@ -96,24 +101,39 @@ $set=[];
             @endfor
         </tr>
     </table>
-
-    <table width="300px">
-        <br/>
-        <br/>
-        <br/>
-    <tr>
-        <td ><h2 class="card-title text-bold">Tarif BOP Di dep Produksi : </h3></td>
-    </tr> 
-    @foreach($data->set as $index=>$val)
+</div>
+<div class="card">  
+    <h4 class="text-center mt-5">Laporan Tarif BOP Departemen Produksi</h4>
+    <table  align="center">
+         <thead>
+        <tr>
+            <td><h2 class="card-title text-bold">Tarif BOP Di dep Produksi : </h2>
+            </td>
+        </tr> 
+    </thead>
+        @foreach($data->set as $index=>$val)
         @if($val['jenis_dp']=='Produksi') 
+        <tbody>
         <tr>
             <td width="auto"><h3 class="card-title text-bold">{{$val['nama_detail_dep']}} :</h3>&nbsp;&nbsp; @currency(total($data, $index, $set))/{{$val['beban']}}= @currency(total($data, $index, $set)/$val['beban'])/jam</td>
         </tr>
+        </tbody>
         @endif
-    @endforeach
+        @endforeach
     </table>
 </div>
+<div class="text-center">
+  <a href="{{url('/Detaildasar/alokasi_pdf')}}" class="btn btn-success btn-sm" target="_blank">CETAK</a>
+  <input type="button" value="kembali" class="btn btn-primary btn-sm" onclick="history.back(-1)" />
 </div>
+@else
+                 <div class="text-center"><h2>Oops.. Data Tidak Ditemukan</h2></div>
+             @endif
+</div>
+
+
+
+
 <?php
 function nominal($data){
     if($data==[]){
@@ -151,7 +171,6 @@ function total($data, $index, $set){
         // dd($set);
         return subtotal($set, $index);
     }
-
 }
 
 // dd($set);

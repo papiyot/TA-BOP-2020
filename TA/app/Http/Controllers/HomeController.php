@@ -45,5 +45,7 @@ class HomeController extends Controller
         return view('simple', compact('pt','dasar','dep','detaildasar','detail_dep'));
     }
 
+    
+
 
 }

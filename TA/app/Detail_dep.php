@@ -16,6 +16,7 @@ class Detail_dep extends Model
     protected $primaryKey = 'kd_detail_dep';
 
     protected $table = 'detail_depar';
+
     protected $fillable = ['kd_detail_dep', 'kode', 'nama_detail_dep', 'kos_awal'];
 
 
@@ -34,12 +35,11 @@ class Detail_dep extends Model
     {
         return $this->belongsTo('App\Dep', 'kode','kd_dp');
     }
-
-
-     public function detdsr()
+    public function detdsr()
     {
-        return $this->hasOne('App\Det_da', 'detaildep_id','kd_detail_dep');
+        return $this->hasOne('App\Det_dasar', 'detaildep_id');
     }
+    
 
     
 }

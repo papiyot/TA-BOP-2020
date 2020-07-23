@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\PT;
+
 use Illuminate\Http\Request;
 
 class PtController extends Controller
 {
+   
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +21,8 @@ class PtController extends Controller
      */
     public function index()
     {
-        //
         $pt = pt::all();
-
+        //return response()->json($pt, 200);
         return view('pt.list', compact('pt'));
     }
 
@@ -41,17 +47,14 @@ class PtController extends Controller
     {
         $messages = [
             'required' => ':attribute wajib diisi!!!',
-            
         ];
 
         $this->validate($request,[
-            //'kd_pt' => 'required',
             'nama_pt' => 'required',
             'alamat_pt' => 'required',
             'noTelp_pt' => 'required',
         ],$messages);
         
-
         pt::create($request->all()); 
 
         return redirect()->back()->with('success', 'Data Yang Anda Masukan successfully.');
@@ -92,16 +95,15 @@ class PtController extends Controller
      */
     public function update(Request $request, PT $pt)
     {
-        //
+
         $request->validate([
-            //'kd_pt' => 'required',
             'nama_pt' => 'required',
             'alamat_pt' => 'required',
             'noTelp_pt' => 'required',
 
         ]);
 
-        $pt->update($request->all()); //Fungsi untuk menyimpan data inputan kita
+        $pt->update($request->all()); 
 
         return redirect()->route('pt.index')
         ->with('success', 'Data  Berhasil Diupdate.');
@@ -116,9 +118,8 @@ class PtController extends Controller
      */
     public function destroy(PT $pt)
     {
-        //
 
-        $pt->delete(); //Fungsi untuk menghapus data sesuai dengan ID yang dipilih
+        $pt->delete(); 
 
         return redirect()->route('pt.index')
         ->with('success', 'Data deleted successfully');

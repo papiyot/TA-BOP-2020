@@ -2,10 +2,16 @@
 namespace App\Http\Controllers;
 
 use App\Dasar;
+use PDF;
 use Illuminate\Http\Request;
 
 class DasarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +24,13 @@ class DasarController extends Controller
         return view('dasar.list', compact('dasar'));
     }
 
+    public function cetak_pdf()
+    {
+        $dasar=dasar::all();        
+        $pdf = PDF::loadview('dasar.dasar_pdf', ['dasar' => $dasar]);
+       return $pdf->download('daftar-dasar-pembebanan.pdf');
+   }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -25,9 +38,9 @@ class DasarController extends Controller
      */
     public function create()
     {
-         $dasars=dasar::all();
-        return view('dasar.create1', compact('dasars'));
-    }
+       $dasars=dasar::all();
+       return view('dasar.create1', compact('dasars'));
+   }
 
     /**
      * Store a newly created resource in storage.
@@ -37,25 +50,15 @@ class DasarController extends Controller
      */
     public function store(Request $request)
     {
-        $data= $request->all();
-        //dd($data);
-         $this->validate($request,[
-       //'kd_dasar' => 'required|max:4',
-       'nama_dasar' => 'required',
 
+        $message = [
+            'required' => ':attribute wajib diisi!!!',
+        ];
 
-        ]);
-        if (count($data['nama_dasar']) > 0) { 
-        foreach ($data['nama_dasar'] as $item => $value) {
-                $data2  = array(
-                    //'kd_dasar' => $data['kd_dasar'][$item],
-                    'nama_dasar' =>$data['nama_dasar'][$item]
-                     );
-                dasar::create($data2);
-           }
-       }
-
-        //dasar::create($request->all()); 
+        $this->validate($request,[
+         'nama_dasar' => 'required',
+     ],$message);
+        dasar::create($request->all()); 
 
         return redirect()->back()->with('success', 'Data Yang Anda Masukan successfully.');
 
@@ -92,7 +95,7 @@ class DasarController extends Controller
      */
     public function update(Request $request, Dasar $dasar)
     {
-        
+
         $request->validate([
             'kd_dasar' => 'required',
             'nama_dasar' => 'required',

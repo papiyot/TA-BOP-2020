@@ -49,14 +49,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $messages = [
-            'required' => ':attribute wajib diisi!!!',
-            
-        ];
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'jabatan' => ['required']
+           
         ]);
     }
 
@@ -72,6 +70,9 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'jabatan' => $data['jabatan'],
+             
+
         ]);
     }
     

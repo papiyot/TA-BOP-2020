@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Dep;
 use App\Detail_dep;
+use App\pt;
+use PDF;
 
 use Illuminate\Http\Request;
 
 class DepController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +25,18 @@ class DepController extends Controller
     {
         $dep = dep::all();
         return view('departemen.list', compact('dep'));
+    }
+    public function cetak_pdf()
+    {
+         $dep = dep::all();
+        $pdf = PDF::loadview('departemen.depar_pdf', ['dep' => $dep]);
+        return $pdf->download('daftar-departemen.pdf');
+    }
+    public function cetak_pete()
+    {
+         $pt = pt::all();
+        $pdf = PDF::loadview('departemen.pete_pdf', ['pt' => $pt]);
+        return $pdf->download('daftar-pt.pdf');
     }
 
     /**
@@ -29,15 +48,11 @@ class DepController extends Controller
     {
 
         $dep = dep::all();
-        return view('departemen.create1', compact('dep'));
+        $pete = pt::orderBy('created_at', 'ASC')->get();
+        return view('departemen.input', compact('dep', 'pete'));
     }
 
-    public function pro()
-    {
 
-        $dep = dep::all();
-        return view('departemen.createPro', compact('dep'));
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -47,48 +62,28 @@ class DepController extends Controller
      */
     public function store(Request $request)
     {
-       $messages = [
-        'required' => ':attribute wajib diisi!!!',
-         'numeric' => 'kos awal diisi dengan anggka!!!',
+        $message = [
+            'required' => ':attribute wajib diisi!!!',
+        ];
 
-    ];
+        $data = $request->validate([
+            'jenis_dp' => 'required',
+        ], $message);
 
-    $this->validate($request,[
-            //'kd_pt' => 'required',
-        'jenis_dp' => 'required',
-        'nama_detail_dep' => 'required',
-        'kos_awal' => 'required|numeric',
-    ],$messages);
+        dep::create($request->all()); 
 
-    $data = $request->all();
-        //dd($data);
-    $deps = new dep;
-        //$deps->kd_dp = $data['kd_dp'];
-    $deps->jenis_dp = $data['jenis_dp'];
-    $deps->save();
-
-       // $detail_deps= new detail_dep;
-       // $detail_deps->kode = $deps->kd_dp;
-       // $detail_deps->nama_detail_dep= $data['nama_detail_dep'];
-       // $detail_deps->kos_awal= $data['kos_awal'];
-       // $detail_deps->save();
-
-    if (count($data['nama_detail_dep']) > 0) {
-        foreach ($data['nama_detail_dep'] as $key => $value) {
-            $data2= array(
-                'kode' => $deps->kd_dp,
-                'nama_detail_dep' =>$data['nama_detail_dep'][$key],
-                'kos_awal' => $data['kos_awal'][$key],
-
-            );
-            detail_dep::create($data2);
-        }
-
+       /** if (count($data['jenis_dp']) > 0) {
+            foreach ($data['jenis_dp'] as $item => $value) {
+                $data2  = array(
+                    //'kd_dasar' => $data['kd_dasar'][$item],
+                    'jenis_dp' => $data['jenis_dp'][$item]
+                );
+                dep::create($data2);
+            }
+        }**/
+    
+        return redirect()->back()->with('success', 'Data yang anda masukan Berhasil');
     }
-
-
-    return redirect()->back()->with('sukses', 'Data yang anda masukan Berhasil');
-}
 
 
     /**
@@ -129,7 +124,7 @@ class DepController extends Controller
         $dep->update($request->all());
 
         return redirect()->route('dep.index')
-        ->with('success', 'Data  Berhasil Diupdate.');
+            ->with('success', 'Data  Berhasil Diupdate.');
     }
 
     /**
@@ -144,6 +139,6 @@ class DepController extends Controller
         $dep->delete();
 
         return redirect()->back()
-        ->with('success', 'Data deleted successfully');
+            ->with('success', 'Data deleted successfully');
     }
 }

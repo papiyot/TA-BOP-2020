@@ -14,22 +14,17 @@
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div> 
     </section>
 
     <div class="card text-center">
         <div class="card-body">
-        	 @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-		 		<h5 class="card-title">Selamat Datang</h5>
-		        <p class="card-text">Untuk memulai Perhitungan tarif BOP Departemen
-		            Produksi dengan Metode Bertahap klik Mulai </p>
-		        <a href="{{ route('pt.create') }}" class="btn btn-primary">Mulai</a>
-
+		 		<h2>Selamat Datang di Aplikasi Perhitungan Bop Departemen Produksi Dengan Metode Bertahap</h2>
+         @if(auth::user('user')->jabatan=='Admin') 
+		        <p class="card-text">Untuk memulai Perhitungan  klik Mulai </p>
+		        <a href="{{ route('pt.create') }}" class="btn btn-primary"
+           >Mulai</a>
+           @endif
         </div>
         </div>
     </div>

@@ -16,7 +16,7 @@ class CreateDepartemenTable extends Migration
         Schema::create('departemen', function (Blueprint $table) {
             //$table->bigIncrements('id');
             $table->string('kd_dp',8)->unique()->primary();
-            $table->enum('jenis_dp', array('Jasa', 'Produksi'));
+            $table->string('jenis_dp');
             $table->timestamps();
         });
     }

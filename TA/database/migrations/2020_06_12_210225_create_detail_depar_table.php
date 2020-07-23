@@ -18,7 +18,7 @@ class CreateDetailDeparTable extends Migration
             $table->string('kd_detail_dep',8)->unique()->primary();
             $table->string('kode', 8);
             $table->foreign('kode')->references('kd_dp')->on('departemen')
-                ->onDelete('cascade')->onUpdate('cascade');
+            ->onDelete('cascade')->onUpdate('cascade');
             $table->string('nama_detail_dep');
             $table->integer('kos_awal');
             $table->timestamps();

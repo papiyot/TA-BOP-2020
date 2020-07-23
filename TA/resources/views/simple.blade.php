@@ -165,6 +165,7 @@
              <th>Jenis Departemen</th>
              <th>Nama Detail Departemen</th>
              <th>Kos awal</th>
+             <th>Kode PT</th>
            </tr>
 
          </thead>
@@ -175,6 +176,7 @@
            <td>{{ $detaildep->depa->jenis_dp }}</td>
            <td>{{ $detaildep->nama_detail_dep }}</td>
            <td>@currency( $detaildep->kos_awal)</td>
+            <td> {{ $detaildep->detdsr->pt_id }}</td>
          </tr>
          @endforeach
        </tbody>
@@ -209,7 +211,7 @@
             <th>Jam Kerja langsung (dalam Jam)</th>
             <th>luas Lahan(m2)</th>
             <th>Jam Mesin (dalam Jam)</th>
-            <th>Total Jam Kerja(dalam Jam)</th>
+           
             <th>Dasar pembebanan(dalam Jam)</th>
            </tr>
 
@@ -222,7 +224,7 @@
              <td>{{ $key->jkl }}</td>
             <td>{{ $key->lh }}</td>
             <td>{{ $key->jm }}</td>
-            <td>{{ $key->tjk }}</td>
+         
             <td>{{ $key->dasar->nama_dasar }}</td>
          </tr>
          @endforeach

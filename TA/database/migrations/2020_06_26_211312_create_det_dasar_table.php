@@ -22,14 +22,12 @@ class CreateDetDasarTable extends Migration
             $table->string('detaildep_id',8);
             $table->foreign('detaildep_id')->references('kd_detail_dep')->on('detail_depar')
                 ->onDelete('cascade');
-            $table->string('pt_id', 8);
+             $table->string('pt_id', 8);
             $table->foreign('pt_id')->references('kd_pt')->on('pt')
-                ->onDelete('cascade');
-
+            ->onDelete('cascade')->onUpdate('cascade');
             $table->integer('jkl');
             $table->integer('lh');
             $table->integer('jm');
-            $table->integer('tjk');
 
 
             $table->timestamps();

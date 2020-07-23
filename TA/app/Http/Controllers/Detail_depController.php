@@ -4,22 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Detail_dep;
 use App\Dep;
+use PDF;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\Return_;
 
 class Detail_depController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $detail_dep = detail_dep::all();
+        $cari = $request->get('cari');
+        $detail_dep = detail_dep::with(['detdsr.pt:kd_pt,nama_pt'])->where('created_at', 'like', "%" . $cari . "%")->paginate();
+        //return response()->json($detail_dep, 200);
         return view('detaildepar.list', compact('detail_dep'));
     }
 
+    public function cetak_pdf()
+    {
+        //$detail_dep = detail_dep::with('detdsr')->get();
+        $detail_dep = detail_dep::with(['detdsr.pt:kd_pt,nama_pt'])->orderBy('created_at', 'ASC')->get();
+        $pdf = PDF::loadview('detaildepar.detaildep_pdf', ['detail_dep' => $detail_dep]);
+        return $pdf->download('daftar-detail.pdf');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -28,13 +42,11 @@ class Detail_depController extends Controller
     public function create()
 
     {
-
-        //$detaildep = detail_dep::with('depa')->get(); // For multiple data
-
-        $detaildep = dep::all();
-        //$detaildeps = detail_dep::with('depar')->where('kd_dp')->get();
-        return view('detaildepar.create', compact('detaildep'));
+        $dep = dep::all();
+        return view('detaildepar.create', compact('dep'));
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -46,16 +58,31 @@ class Detail_depController extends Controller
     {
 
         $data = $request->all();
-        //dd($data);
-        $request->validate([
+        dd($data);
+        $message = [
+            'required' => ':attribute wajib diisi!!!',
+
+        ];
+
+        $data = $request->validate([
             'kode' => 'required',
-            //'kd_detail_dep' => 'required',
             'nama_detail_dep' => 'required',
             'kos_awal' => 'required',
+        ], $message);
 
-        ]);
 
         Detail_dep::create($request->all());
+        /**if (count($data['nama_detail_dep']) > 0) {
+            foreach ($data['nama_detail_dep'] as $key => $value) {
+                $data2 = array(
+                    'kode' => $data['kode'][$key],
+                    'nama_detail_dep' => $data['nama_detail_dep'][$key],
+                    'kos_awal' => $data['kos_awal'][$key],
+                );
+                Detail_dep::create($data2);
+            }
+        }**/
+
 
         return redirect()->back()
             ->with('success', 'Data Yang Anda Masukan successfully.');
@@ -82,7 +109,7 @@ class Detail_depController extends Controller
      */
     public function edit(Detail_dep $detail_dep)
     {
-       //$detail_deps = detail_dep::with('depa')->get();
+        //$detail_deps = detail_dep::with('depa')->get();
         $detail_deps = dep::all();
         return view('detaildepar.edit', compact('detail_dep', 'detail_deps'));
     }
