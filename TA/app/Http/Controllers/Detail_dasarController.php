@@ -168,7 +168,8 @@ class Detail_dasarController extends Controller
     public function lihat1(request $request, Det_dasar $detail_dasar)
     {
         $data = new \stdClass();
-        $cari = $request->get('cari');; 
+        $cari = ($request->cari) ? $request->cari :  pt::first()->kd_pt;
+        $data->cari = ($request->cari) ? $request->cari :  pt::first()->kd_pt;
         $data->detaildasar = det_dasar::with(['pt:nama_pt', 'detaildep.depa','dasar'])->where('pt_id', 'like', "%" . $cari . "%")->paginate();
         $data->pet = pt::orderBy('created_at', 'ASC')->get();
         $data->getdata = [];
@@ -192,7 +193,8 @@ class Detail_dasarController extends Controller
     public function cetak_anggaran(request $request)
     {
      $data = new \stdClass();
-     $cari = $request->get('cari');;
+     $cari = ($request->cari) ? $request->cari :  pt::first()->kd_pt;
+     $data->cari = ($request->cari) ? $request->cari :  pt::first()->kd_pt;
      $data->detaildasar = det_dasar::with(['pt:kd_pt,nama_pt', 'detaildep.depa','dasar'])->where('pt_id', 'like', "%" . $cari . "%")->paginate();
      $data->pet = pt::orderBy('created_at', 'ASC')->get();
      $data->getdata = [];
@@ -216,20 +218,21 @@ class Detail_dasarController extends Controller
 public function alokasi(request $request)
 {
     $data = new \stdClass();
-    $cari = $request->cari;
+    $cari = ($request->cari) ? $request->cari :  pt::first()->kd_pt;
    $data->detaildasar = det_dasar::with(['pt:kd_pt,nama_pt', 'detaildep.depa','dasar'])->where('pt_id', 'like', "%" . $cari . "%")->paginate();
     $data->pet = pt::orderBy('created_at', 'ASC')->get();
     $data->dep = Dep::orderBy('created_at', 'ASC')->get();
-    $data->detail_dep = Detail_dep::orderBy('created_at', 'ASC')->get();
+    $data->detail_dep = DB::table('det_dasar')->join('detail_depar', 'detaildep_id', '=', 'kd_detail_dep')->where('pt_id', 'like', "%" . $cari . "%")->get();
     $data->headerCol = count($data->detail_dep);
     $data->header = [];
     $data->layanan = [];
     $data->set = null;
+    $data->cari = ($request->cari) ? $request->cari :  pt::first()->kd_pt;
 
 
     foreach ($data->dep as $dep) {
         $sub = $dep;
-        $sub->child = DB::table('det_dasar')->join('detail_depar', 'detaildep_id', '=', 'kd_detail_dep')->where('kode', $dep->kd_dp)->get();
+        $sub->child = DB::table('det_dasar')->join('detail_depar', 'detaildep_id', '=', 'kd_detail_dep')->where('pt_id', 'like', "%" . $cari . "%")->where('kode', $dep->kd_dp)->get();
         array_push($data->header, $sub);
             // dd($sub->child);
     }
@@ -300,7 +303,7 @@ public function alokasi(request $request)
         }
     }
         // dd($data->set);
-      //return response()->json($data, 200);
+    //   return response()->json($data, 200);
     return view('detaildasar.alokasi', compact('data','cari'));
 }
 

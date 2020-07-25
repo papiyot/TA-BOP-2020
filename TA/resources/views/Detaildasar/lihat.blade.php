@@ -24,7 +24,7 @@
                 <select name="cari">
                     <option>==Pilih PT==</option>
                     @foreach ($data->pet as $pes)
-                    <option value="{{ old('cari', $pes->kd_pt)   }}">{{ $pes->nama_pt}} </option>
+                    <option value="{{ old('cari', $pes->kd_pt)   }}" @if($pes->kd_pt==$data->cari) selected @php $namapt=$pes->nama_pt; @endphp @endif>{{ $pes->nama_pt}} </option>
                     @endforeach
                 </select>
                 <input type="submit" value="CARI">
@@ -40,7 +40,7 @@
 @endif
 <div class="card card-default">
   @if (count($data->getdata ))
-     <H3 class="text-center"> Laporan  Data Anggaran PT : @if($cari === $pes->kd_pt ) {{$pes->nama_pt}} @endif  </H3>
+     <H3 class="text-center"> Laporan  Data Anggaran PT : {{ $namapt }}  </H3>
     <div class="table-responsive">
     <table class="table table-striped table-bordered text-center" >
 
