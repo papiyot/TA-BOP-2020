@@ -4,13 +4,15 @@
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-    @php 
-    $set=[]; 
+    @php
+    $set=[];
     @endphp
 
     <h2 class="text-center" align="center">Laporan Pengalokasian BOP</h2>
-    <h3 class="text-center" align="center">PT  @foreach ($data->pet as $pes) @endforeach
-        {{ $pes->nama_pt }}  @endif </h3>
+    <h3 class="text-center" align="center"
+    @foreach ($data->pet as $pes)
+     @if($pes->kd_pt==$data->cari) selected @php $namapt=$pes->nama_pt; @endphp @endif
+     @endforeach>PT  {{ $namapt }}</h3>
 
         <div class="table-responsive">
             <table  class="table table-bordered">
@@ -74,20 +76,19 @@
 
     </div>
 
-    
+
              <h2 class="text-center mt-5" align="center">Laporan Tarif BOP Departemen Produksi</h2>
-        <h3 class="text-center" align="center">PT @foreach ($data->pet as $pes) @endforeach
-            {{ $pes->nama_pt }} @if($cari === $pes->kd_pt ) @endif</h3> </br> </br>
+        <h3 class="text-center" align="center">PT {{$namapt}}</h3> </br> </br>
             <div class="table-responsive">
                 <table  align="center">
                    <thead>
                     <tr>
                         <td class="text-bold">Tarif BOP Di dep Produksi :
                         </td>
-                    </tr> 
+                    </tr>
                 </thead>
                 @foreach($data->set as $index=>$val)
-                @if($val['jenis_dp']=='Produksi') 
+                @if($val['jenis_dp']=='Produksi')
                 <tbody>
                     <tr>
                         <td width="auto" class="text-bold">{{$val['nama_detail_dep']}} :&nbsp;&nbsp; @currency(total($data, $index, $set))/{{$val['beban']}}= @currency(total($data, $index, $set)/$val['beban'])/jam</td>
@@ -116,7 +117,7 @@ function subtotal($data, $index){
         foreach($val_data as $inx_sub => $val_sub){
             if($inx_sub==$index){
                 $total = $total + $val_sub;
-            }   
+            }
         }
     }
     return $total;
@@ -132,7 +133,7 @@ function qty_dep($data, $kode){
 }
 function total($data, $index, $set){
     $qty_jasa = qty_dep($data,'DP001' );
-    
+
     if($index<$qty_jasa){
         return 0;
     }else{

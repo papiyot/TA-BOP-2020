@@ -45,7 +45,7 @@
             <th>No</th>
             <th>Kode Departemen</th>
             <th>Jenis Departemen</th>
-  @if(auth::user('user')->jabatan=='admin')
+  @if(auth::user('user')->jabatan=='Admin')
             <th width="280px">Action</th>
             @endif
         </tr>
@@ -55,7 +55,7 @@
             <td>{{ $key+1 }}</td>
             <td>{{ $depa->kd_dp }}</td>
             <td>{{ $depa->jenis_dp }}</td>
-  @if(auth::user('user')->jabatan=='admin')
+  @if(auth::user('user')->jabatan=='Admin')
             <td>
                 <form action="{{ route ('dep.destroy',$depa->kd_dp) }}" method="POST">
                     
@@ -63,9 +63,9 @@
                     <a class="btn btn-primary" href="{{ route('dep.edit',$depa->kd_dp) }}">Edit</a>
 
                     @csrf
-                  <!--  @method('DELETE')
+                   @method('DELETE')
 
-                    <button type="submit"   onclick="return confirm('Yakin Hapus?')" class="btn btn-danger">Hapus</button>-->
+                    <button type="submit"   onclick="return confirm('Yakin Hapus?')" class="btn btn-danger">Hapus</button>
                 </form>
             </td>
             @endif

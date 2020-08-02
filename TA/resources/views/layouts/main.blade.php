@@ -177,12 +177,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+            <!--  <li class="nav-item">
                 <a href="{{ url('simple') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Simple Tables</p>
                 </a>
-              </li>
+              </li>-->
               @if(auth::user('user')->jabatan=='Admin')
               <li class="nav-item">
                 <a href="{{ route('pt.index') }}" class="nav-link">

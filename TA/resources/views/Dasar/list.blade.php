@@ -42,7 +42,7 @@
             <th>No</th>
             <th>kode Dasar</th>
             <th>Nama Dasar Pembebanan</th>
-            @if(auth::user('user')->jabatan=='admin')
+            @if(auth::user('user')->jabatan=='Admin')
             <th width="280px">Action</th>
             @endif
         </tr>
@@ -51,14 +51,14 @@
                 <td>{{ ++$i }}</td>
                 <td>{{ $dasar->kd_dasar }}</td>
                 <td>{{ $dasar->nama_dasar }}</td>
-                @if(auth::user('user')->jabatan=='admin')
+                @if(auth::user('user')->jabatan=='Admin')
 
                 <td>
                     <form action="{{ route('dasar.destroy',$dasar->kd_dasar) }}" method="POST">
                         <a class="btn btn-primary" href="{{ route('dasar.edit',$dasar->kd_dasar) }}">Edit</a>
                         @csrf
-                       <!-- @method('DELETE')
-                        <button type="submit" onclick="return confirm('Yakin Hapus?')" class="btn btn-danger">Hapus</button>-->
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Yakin Hapus?')" class="btn btn-danger">Hapus</button>
                     </form>
                 </td>
                 @endif

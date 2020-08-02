@@ -16,7 +16,6 @@
         </div>
       </div> 
     </section>
-
     <div class="card text-center">
         <div class="card-body">
 		 		<h2>Selamat Datang di Aplikasi Perhitungan Bop Departemen Produksi Dengan Metode Bertahap</h2>

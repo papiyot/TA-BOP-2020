@@ -5,10 +5,15 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-<H2 align="center"> Laporan  Data Anggaran PT @foreach ($data->pet as $pes) @endforeach
-                    {{ $pes->nama_pt }}  </H2>
+   
+<H2 align="center"  @foreach ($data->pet as $pes)
+     @if($pes->kd_pt==$data->cari) selected @php $namapt=$pes->nama_pt; @endphp @endif
+     @endforeach> LAPORAN DATA ANGGARAN DAN PENGALOKASIAN PT {{$namapt}}  </H2>
+     <br>
+     <br>
+     
     <div class="table-responsive">
-    <table class="table table-bordered">
+    <table class="table table-bordered text-center">
 
         <tr>
             <th scope="col">Departemen</th>

@@ -57,7 +57,7 @@ $set=[];
         <tr>
             @foreach($data->header as $inx => $header)
             @foreach($header->child as $inx => $child)
-            <th>{{$child->nama_detail_dep}}</th>
+            <th>{{$child->nama_detail_dep}} | ({{$data->detaildasar}})</th>
             @endforeach
             @endforeach
         </tr>
@@ -123,7 +123,7 @@ $set=[];
     </table>
 </div>
 <div class="text-center">
-  <a href="{{url('/Detaildasar/alokasi_pdf')}}" class="btn btn-success btn-sm" target="_blank">CETAK</a>
+  <a href="{{url('/Detaildasar/alokasi_pdf?cari='.$data->cari)}}" class="btn btn-success btn-sm" target="_blank">CETAK</a>
   <input type="button" value="kembali" class="btn btn-primary btn-sm" onclick="history.back(-1)" />
 </div>
 @else

@@ -78,7 +78,7 @@
  </div>
  <div class="text-center">
   <input type="button" value="kembali" class="btn btn-primary btn-sm" onclick="history.back(-1)" />
-  <a href="{{url('/Detaildasar/anggaran_pdf')}}" class="btn btn-success btn-sm" target="_blank">CETAK</a>
+  <a href="{{url('/Detaildasar/anggaran_pdf?cari='.$data->cari)}}" class="btn btn-success btn-sm" target="_blank">CETAK</a>
   <a  href="{{ url('Detaildasar/alokasi') }}" class="btn btn-secondary btn-sm">Laporan Alokasi</a>
 </div>
 </div>

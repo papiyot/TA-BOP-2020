@@ -21,11 +21,13 @@ class Detail_depController extends Controller
      */
     public function index(Request $request)
     {
-        $cari = $request->get('cari');
-        $detail_dep = detail_dep::with(['detdsr.pt:kd_pt,nama_pt'])->where('created_at', 'like', "%" . $cari . "%")->paginate();
+         
+        $detail_dep = detail_dep::with(['detdsr.pt'])->get();
         //return response()->json($detail_dep, 200);
         return view('detaildepar.list', compact('detail_dep'));
     }
+     
+
 
     public function cetak_pdf()
     {
@@ -58,7 +60,7 @@ class Detail_depController extends Controller
     {
 
         $data = $request->all();
-        dd($data);
+        //dd($data);
         $message = [
             'required' => ':attribute wajib diisi!!!',
 

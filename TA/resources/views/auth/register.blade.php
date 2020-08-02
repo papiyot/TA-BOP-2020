@@ -62,7 +62,7 @@
                 <select name="jabatan" class="form-control">
                     <option value="Admin">Admin
                     </option>
-                    <option value="Manager">Manager</option>
+                    <option value="Pemilik">Pemilik</option>
                 </select>
             </div>
 

@@ -47,10 +47,11 @@ class PtController extends Controller
     {
         $messages = [
             'required' => ':attribute wajib diisi!!!',
+            'unique:pt' =>':attribute Sudah ada'
         ];
 
         $this->validate($request,[
-            'nama_pt' => 'required',
+            'nama_pt' => 'required|unique:pt',
             'alamat_pt' => 'required',
             'noTelp_pt' => 'required',
         ],$messages);

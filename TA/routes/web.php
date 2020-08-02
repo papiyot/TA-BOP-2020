@@ -39,6 +39,8 @@ Route::get('/Detaildasar/createPro', 'Detail_dasarController@pro');
 Route::get('/Detaildasar/anggaran_pdf', 'Detail_dasarController@cetak_anggaran');
 Route::get('/Detaildasar/alokasi_pdf', 'Detail_dasarController@cetak_alokasi');
 
+Route::get('/Detaildasar/det_pdf', 'Detail_dasarController@cetak_det');
+
 Route::get('/detaildepar/detaildep_pdf', 'Detail_depController@cetak_pdf');
 
 Route::get('/Departemen/depar_pdf', 'DepController@cetak_pdf');
