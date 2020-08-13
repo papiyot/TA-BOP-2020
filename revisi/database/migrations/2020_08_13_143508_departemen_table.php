@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBarangTable extends Migration
+class DepartemenTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateBarangTable extends Migration
      */
     public function up()
     {
-        Schema::create('barang', function (Blueprint $table) {
-            $table->string('barang_id')->primary();
-            $table->string('barang_nama');
-            $table->double('barang_harga_pembelian',15);
-            $table->integer('barang_margin');
-            $table->string('barang_satuan');
-            $table->decimal('barang_stok', 15,2);
+        Schema::create('departemen', function (Blueprint $table) {
+            $table->string('departemen_id')->primary();
+            $table->string('departemen_nama');
+            $table->string('departemen_type');
+            $table->integer('departemen_kosawal');
+            $table->string('pt_id');
+            $table->foreign('pt_id')->references('pt_id')->on('pt')
+            ->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->nullable();
             $table->softDeletes('deleted_at');
@@ -33,6 +34,6 @@ class CreateBarangTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('barang');
+        Schema::dropIfExists('departemen');
     }
 }

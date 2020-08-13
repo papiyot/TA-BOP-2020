@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBiayaTable extends Migration
+class CreatePembebananTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateBiayaTable extends Migration
      */
     public function up()
     {
-        Schema::create('biaya', function (Blueprint $table) {
-            $table->string('biaya_id')->primary();
-            $table->string('biaya_nama');
+        Schema::create('pembebanan', function (Blueprint $table) {
+            $table->string('pembebanan_id')->primary();
+            $table->string('pembebanan_nama');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->nullable();
             $table->softDeletes('deleted_at');
@@ -29,6 +29,6 @@ class CreateBiayaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('biaya');
+        Schema::dropIfExists('pembebanan');
     }
 }
