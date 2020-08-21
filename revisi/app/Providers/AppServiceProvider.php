@@ -35,5 +35,16 @@ class AppServiceProvider extends ServiceProvider
             return " <?php echo \Carbon\Carbon::parse($expression)->translatedFormat('d F Y'); ?>";
         });
 
+        Blade::directive('cari', function ($data) {
+            $nilai = 0;
+            foreach($data[0] as $val){
+                if($val->pembebanan_id==$data[1] && $val->departemen_id==$data[2]){
+                    $nilai = $val->hitung_value;
+                    // dd($nilai);
+                }
+            }
+            return " <?php echo $nilai; ?>";
+        });
+
     }
 }

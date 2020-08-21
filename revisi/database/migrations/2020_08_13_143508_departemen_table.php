@@ -19,7 +19,10 @@ class DepartemenTable extends Migration
             $table->string('departemen_type');
             $table->integer('departemen_kosawal');
             $table->string('pt_id');
+            $table->string('beban');
             $table->foreign('pt_id')->references('pt_id')->on('pt')
+            ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('beban')->references('pembebanan_id')->on('pembebanan')
             ->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->nullable();

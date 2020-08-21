@@ -18,7 +18,7 @@ class User extends Authenticatable
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $fillable = [
-        'name', 'email', 'password',
+        'id', 'name', 'email', 'password','pt_id',
     ];
 
     /**
@@ -29,6 +29,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // public function posts(){
+    //     return $this->hasMany(Post::class);
+    // }
 
     /**
      * The attributes that should be cast to native types.
